@@ -11,6 +11,11 @@
 Bt::Bt(QObject *parent) :
 QObject(parent)
 {
+    for (int i = 0; i < 100; i++) {
+        kissa.append(0);
+        kettu.append(0.0);
+    }
+
     QBluetoothLocalDevice localDevice;
     QString localDeviceName;
     //connect(socket, &QIODevice::readyRead, this, &Bt::readSocket);
@@ -62,8 +67,6 @@ void Bt::serviceDiscovered(const QBluetoothServiceInfo &service)
     }
 }
 
-static container buffer[100] = {};
-
 void Bt::readSocket()
 {
     if (!socket)
@@ -71,18 +74,11 @@ void Bt::readSocket()
         qDebug() << "no socket";
         return;
     }
-    QString str;
     while (socket->canReadLine()) {
         QByteArray line = socket->readLine().trimmed();
         parse(line);
-        for(int i=0;i<100;i++)
-        {
-            str += QString::number(buffer[i].monitor1);
-            str += "_";
-            str += QString::number(buffer[i].monitor2);
-            str += " ";
-        }
-        emit readedSocket(str);
+
+        emit readedSocket(kissa, kettu);
     }
 }
 
@@ -104,11 +100,15 @@ void Bt::parse(QString s)
 
     foreach (std::string dataTick, objects) {
         std::vector<std::string> temp = parseJson(dataTick, ',');
-        container c;
-        c.monitor1 = std::stoi(temp[0]);
-        c.monitor2 = std::stof(temp[1]);
 
-        insert(c);
+
+
+        //container * c = new container();
+        //c.monitor1 = std::stoi(temp[0]);
+        //c->monitor1 = std::stoi(temp[0]);
+        //c->monitor2 = std::stof(temp[1]);
+
+        insert(std::stoi(temp[0]), std::stof(temp[1]));
     }
 }
 
@@ -134,9 +134,28 @@ std::vector<std::string> Bt::parseJson(std::string s, char delimeter)
     return splittedStrings;
 }
 
-void Bt::insert(container cont)
+void Bt::insert(int ki, float ke)
 {
-    memmove(&buffer[0], &buffer[1], (sizeof (cont) * 100));
+    kissa.append(ki);
+    kettu.append(ke);
 
-    buffer[99] = cont;
+    kissa.removeAt(0);
+    kettu.removeAt(0);
+
+    /*memmove(&buffer[0], &buffer[1], (sizeof (ki) * 100));
+    buffer[99] = ki;
+
+    memmove(&bufferf[0], &bufferf[1], (sizeof (ke) * 100));
+    bufferf[99] = ke;
+
+    kissa.reserve(100);
+    std::copy(buffer, buffer, std::back_inserter(kissa));
+
+    kettu.reserve(100);
+    std::copy(bufferf, bufferf, std::back_inserter(kettu));*/
+}
+
+QList<QVariant> Bt::values()
+{
+    return kissa;
 }

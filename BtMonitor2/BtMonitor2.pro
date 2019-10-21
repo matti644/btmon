@@ -1,6 +1,7 @@
 QT += quick core gui
 QT += bluetooth
 QT += androidextras
+QT += widgets
 
 CONFIG += c++14
 

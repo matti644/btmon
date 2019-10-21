@@ -1,9 +1,11 @@
+#include <QApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtBluetooth>
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QtAndroid>
 #include <Bt.h>
+#include <container.h>
 #include <QDataStream>
 #include <QTouchEvent>
 
@@ -11,7 +13,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     qmlRegisterType<Bt>("Bt", 1, 0, "Bt");
 
