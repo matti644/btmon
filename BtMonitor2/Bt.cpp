@@ -12,8 +12,10 @@ Bt::Bt(QObject *parent) :
 QObject(parent)
 {
     for (int i = 0; i < 100; i++) {
-        kissa.append(0);
-        kettu.append(0.0);
+        // Prefill buffer to 100
+        // For ease of use on the UI side
+        mon1Buffer.append(0);
+        mon2Buffer.append(0.0);
     }
 
     QBluetoothLocalDevice localDevice;
@@ -54,7 +56,7 @@ void Bt::serviceDiscovered(const QBluetoothServiceInfo &service)
     //qDebug() << "Found new device:" << service.device().address().toString() << " " << service.serviceName();
     if(service.device().address().toString() == "B8:27:EB:43:05:5D" && service.serviceName() == "Serial Port Profile")
     {
-        qDebug() << "yeet";
+        qDebug() << "Found the correct device, attempting to create a socket";
         socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
         socket->connectToService(service, QIODevice::ReadWrite);
 
@@ -78,7 +80,7 @@ void Bt::readSocket()
         QByteArray line = socket->readLine().trimmed();
         parse(line);
 
-        emit readedSocket(kissa, kettu);
+        emit socketDataRead(mon1Buffer, mon2Buffer);
     }
 }
 
@@ -100,8 +102,6 @@ void Bt::parse(QString s)
 
     foreach (std::string dataTick, objects) {
         std::vector<std::string> temp = parseJson(dataTick, ',');
-
-
 
         //container * c = new container();
         //c.monitor1 = std::stoi(temp[0]);
@@ -134,28 +134,13 @@ std::vector<std::string> Bt::parseJson(std::string s, char delimeter)
     return splittedStrings;
 }
 
-void Bt::insert(int ki, float ke)
+void Bt::insert(int m1, float m2)
 {
-    kissa.append(ki);
-    kettu.append(ke);
+    // Keep an even amount of 100 data points in the buffer
+    // Eases the use on UI
+    mon1Buffer.append(m1);
+    mon2Buffer.append(m2);
 
-    kissa.removeAt(0);
-    kettu.removeAt(0);
-
-    /*memmove(&buffer[0], &buffer[1], (sizeof (ki) * 100));
-    buffer[99] = ki;
-
-    memmove(&bufferf[0], &bufferf[1], (sizeof (ke) * 100));
-    bufferf[99] = ke;
-
-    kissa.reserve(100);
-    std::copy(buffer, buffer, std::back_inserter(kissa));
-
-    kettu.reserve(100);
-    std::copy(bufferf, bufferf, std::back_inserter(kettu));*/
-}
-
-QList<QVariant> Bt::values()
-{
-    return kissa;
+    mon1Buffer.removeAt(0);
+    mon2Buffer.removeAt(0);
 }

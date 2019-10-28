@@ -9,11 +9,14 @@ Window {
     visible: true
     title: qsTr("BTmonitor")
     height: 640
+
+    // Bluetooth discovery control
     property var found: false
 
+    // Chart data control
     property var runTimer: false
-    property var mon1Data
-    property var mon2Data
+    property var mon1ChartData
+    property var mon2ChartData
 
     width: 320
 
@@ -28,11 +31,11 @@ Window {
     }
 
     function updateMons() {
-        updateMon(ls, mon1Data);
-        updateMon(ls2, mon2Data);
+        updateMon(ls, mon1ChartData);
+        updateMon(ls2, mon2ChartData);
 
-        monitor.text = "Monitor 1 avg (0.1s): " + calculateAvgOverLastTenPoints(mon1Data)
-                + "\nMonitor 2 avg (0.1s): " + calculateAvgOverLastTenPoints(mon2Data)
+        monitor.text = "Monitor 1 avg (0.1s): " + calculateAvgOverLastTenPoints(mon1ChartData)
+                + "\nMonitor 2 avg (0.1s): " + calculateAvgOverLastTenPoints(mon2ChartData)
     }
 
     function updateMon(sr, data) {
@@ -52,16 +55,15 @@ Window {
     Bt {
         id: demo
 
-        onReadedSocket:
-        {
+        onSocketDataRead: {
             if (!runTimer) {
                 // For the first time running, append all the data points
                 // Afterwards update them
-                for (var prop in atalante) {
+                for (var prop in mon1) {
                     ls.append(ls.count, prop)
                 }
 
-                for (var prop in tamamo) {
+                for (var prop in mon2) {
                     ls2.append(ls2.count, prop);
                 }
 
@@ -69,12 +71,17 @@ Window {
                 runTimer = true
             }
 
-            mon1Data = atalante;
-            mon2Data = tamamo;
+            mon1ChartData = mon1;
+            mon2ChartData = mon2;
         }
     }
 
     GridLayout {
+        /*
+          Doesn't scale all too neatly, unless 50/50 width/height split,
+          look into better ways of handling scalability
+          */
+
         id: gr
         anchors.fill: parent
         anchors.margins: 20

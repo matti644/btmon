@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.10.1, 2019-10-21T13:11:29. -->
+<!-- Written by QtCreator 4.10.1, 2019-10-28T20:01:19. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -368,7 +368,7 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">BtMonitor2</value>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">BtMonitor2</value>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.AndroidRunConfiguration:D:/QTProjects/btmon/BtMonitor2/BtMonitor2.pro</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.AndroidRunConfiguration:D:/Programming/btmon/BtMonitor2/BtMonitor2.pro</value>
     <value type="QString" key="RunConfiguration.Arguments"></value>
     <value type="uint" key="RunConfiguration.QmlDebugServerPort">3768</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
