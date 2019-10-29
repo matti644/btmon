@@ -7,4 +7,4 @@ BTMonitor is a mobile application that talks with a raspberry pi running code sp
 | Tekijä         | Itsearvointi |
 |----------------|--------------|
 | Eero Ronkainen | [Linkki](./Itsearviointi/Eero_Ronkainen.md)       |
-| Matti Aho      | Linkki       |
+| Matti Aho      | [Linkki](./Itsearviointi/Matti_Aho.md)      |
