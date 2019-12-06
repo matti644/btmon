@@ -18,6 +18,11 @@ Window {
     property var mon1ChartData
     property var mon2ChartData
 
+    // Generator properties
+    property var gen1Data: []
+    property var gen2Data: []
+    property var curIndex: 0
+
     width: 320
 
     Timer {
@@ -31,40 +36,93 @@ Window {
     }
 
     function updateMons() {
-        updateMon(ls, mon1ChartData);
-        updateMon(ls2, mon2ChartData);
+        updateMon(lsMon1, mon1ChartData);
+        updateMon(lsMon2, mon2ChartData);
 
         monitor.text = "Monitor 1 avg (0.1s): " + calculateAvgOverLastTenPoints(mon1ChartData)
                 + "\nMonitor 2 avg (0.1s): " + calculateAvgOverLastTenPoints(mon2ChartData)
     }
 
     function updateMon(sr, data) {
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             sr.replace(i, i, data[i]);
         }
     }
 
     function calculateAvgOverLastTenPoints(data) {
         var sum = 0;
-        for (var i = data.length - 1; i >= 90; i--) {
+        for (let i = data.length - 1; i >= 90; i--) {
             sum += data[i];
         }
         return sum / 10;
     }
 
-    Bt {
+    /* --------------- Generator functions --------------- */
+    function preFill() {
+        for (let i = 0; i < 100; i++) {
+            gen1Data.push(i);
+            gen2Data.push(i / 10);
+        }
+    }
+
+    function nextStep() {
+        for (let i = 0; i < 10; i++) {
+            let ind = curIndex % 100;
+
+            gen1Data.shift();
+            gen2Data.shift();
+
+            gen1Data.push(ind);
+            gen2Data.push(ind / 10)
+
+            curIndex++
+        }
+
+        if (!runTimer) {
+            for (var mon1Data in gen1Data) {
+                lsMon1.append(lsMon1.count, mon1Data)
+            }
+
+            for (var mon2Data in gen2Data) {
+                lsMon2.append(lsMon2.count, mon2Data);
+            }
+
+            timer.running = true
+            runTimer = true
+        }
+
+        mon1ChartData = gen1Data;
+        mon2ChartData = gen2Data;
+    }
+
+    Timer {
+        id: generatorTimer
+        interval: 100 // 10/1s
+        running: true
+        repeat: true
+        onTriggered: {
+            nextStep()
+        }
+
+        Component.onCompleted: {
+            preFill()
+        }
+    }
+    /* --------------- Back to normal --------------- */
+
+    /*Bt {
         id: demo
 
         onSocketDataRead: {
             if (!runTimer) {
                 // For the first time running, append all the data points
                 // Afterwards update them
-                for (var prop in mon1) {
-                    ls.append(ls.count, prop)
+                for (var mon1Data in mon1) {
+                    ls.append(ls.count, mon1Data)
                 }
 
-                for (var prop in mon2) {
-                    ls2.append(ls2.count, prop);
+                for (var mon2Data in mon2) {
+                    ls2.append(ls2.count, mon2Data);
                 }
 
                 timer.running = true
@@ -74,7 +132,7 @@ Window {
             mon1ChartData = mon1;
             mon2ChartData = mon2;
         }
-    }
+    }*/
 
     GridLayout {
         /*
@@ -132,7 +190,7 @@ Window {
                 }
 
                 LineSeries {
-                    id: ls
+                    id: lsMon1
 
                     name: "Monitor 1"
                     axisX: axisX
@@ -141,7 +199,7 @@ Window {
                 }
 
                 LineSeries {
-                    id: ls2
+                    id: lsMon2
 
                     name: "Monitor 2"
                     axisX: axisX
