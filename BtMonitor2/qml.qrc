@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>main2.qml</file>
         <file>main.qml</file>
+        <file>MainView.qml</file>
+        <file>temp.qml</file>
+        <file>SnapShotView.qml</file>
     </qresource>
 </RCC>

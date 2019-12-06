@@ -4,14 +4,11 @@ import QtBluetooth 5.11
 import Bt 1.0
 import QtQuick.Layouts 1.12
 import QtCharts 2.3
-import QtQuick.Controls 2.12
 
 Window {
     visible: true
     title: qsTr("BTmonitor")
     height: 640
-    id: app
-
 
     // Bluetooth discovery control
     property var found: false
@@ -26,9 +23,6 @@ Window {
     property var gen2Data: []
     property var curIndex: 0
 
-    // Exposed components
-    property var stackView: stack
-
     width: 320
 
     Timer {
@@ -42,11 +36,11 @@ Window {
     }
 
     function updateMons() {
-        updateMon(mainView.mon1Chart, mon1ChartData);
-        updateMon(mainView.mon2Chart, mon2ChartData);
+        updateMon(lsMon1, mon1ChartData);
+        updateMon(lsMon2, mon2ChartData);
 
-        mainView.mon1Label = "Monitor 1: " + calculateAvgOverLastTenPoints(mon1ChartData);
-        mainView.mon2Label = "Monitor 2: " + calculateAvgOverLastTenPoints(mon2ChartData);
+        monitor.text = "Monitor 1 avg (0.1s): " + calculateAvgOverLastTenPoints(mon1ChartData)
+                + "\nMonitor 2 avg (0.1s): " + calculateAvgOverLastTenPoints(mon2ChartData)
     }
 
     function updateMon(sr, data) {
@@ -67,7 +61,7 @@ Window {
     function preFill() {
         for (let i = 0; i < 100; i++) {
             gen1Data.push(i);
-            gen2Data.push((i / 10) ** 2);
+            gen2Data.push((i / 10)**2);
         }
     }
 
@@ -79,18 +73,18 @@ Window {
             gen2Data.shift();
 
             gen1Data.push(ind);
-            gen2Data.push((ind / 10) ** 2)
+            gen2Data.push((ind / 10)**2)
 
             curIndex++
         }
 
         if (!runTimer) {
             for (var mon1Data in gen1Data) {
-                mainView.mon1Chart.append(mainView.mon1Chart.count, mon1Data)
+                lsMon1.append(lsMon1.count, mon1Data)
             }
 
             for (var mon2Data in gen2Data) {
-                mainView.mon2Chart.append(mainView.mon2Chart.count, mon2Data);
+                lsMon2.append(lsMon2.count, mon2Data);
             }
 
             timer.running = true
@@ -140,43 +134,78 @@ Window {
         }
     }*/
 
+    GridLayout {
+        /*
+          Doesn't scale all too neatly, unless 50/50 width/height split,
+          look into better ways of handling scalability
+          */
 
-    StackView {
-        id: stack
+        id: gr
         anchors.fill: parent
-        initialItem: rootView
-    }
+        anchors.margins: 20
+        rowSpacing: 20
+        columnSpacing: 20
+        flow: width > height ? GridLayout.LeftToRight : GridLayout.TopToBottom
 
-    Rectangle {
-        id: rootView
-        Layout.fillHeight: true
-        Layout.fillWidth: true
+        Rectangle {
+            id: textRect
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: "#fff"
 
-        SwipeView {
-            id: mainSwipeView
+            Text {
+                id: monitor
 
-            currentIndex: 0
-            anchors.fill: parent
-
-            MainView {
-                id: mainView
-                mon1Label: "Monitor 1: "
-                mon2Label: "Monitor 2: "
-            }
-
-            Item {
-
+                text: qsTr("A connection to the device has not been established yet.")
+                font.pixelSize: 12
             }
         }
 
-        PageIndicator {
-            id: mainSwipeViewIndicator
+        Rectangle {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            color: "#fff"
 
-            count: mainSwipeView.count
-            currentIndex: mainSwipeView.currentIndex
+            ChartView {
+                id: chart
+                anchors.fill: parent
+                antialiasing: true
 
-            anchors.bottom: mainSwipeView.bottom
-            anchors.horizontalCenter: mainSwipeView.horizontalCenter
+                ValueAxis {
+                    id: axisX
+                    min: 0
+                    max: 100
+                }
+
+                ValueAxis {
+                    id: axisY
+                    min: 0
+                    max: 100
+                }
+
+                ValueAxis {
+                    id: axisY2
+                    min: 0
+                    max: 10.0
+                }
+
+                LineSeries {
+                    id: lsMon1
+
+                    name: "Monitor 1"
+                    axisX: axisX
+                    axisY: axisY
+                    useOpenGL: true
+                }
+
+                LineSeries {
+                    id: lsMon2
+
+                    name: "Monitor 2"
+                    axisX: axisX
+                    axisY: axisY
+                }
+            }
         }
     }
 }
