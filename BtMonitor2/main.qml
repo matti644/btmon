@@ -1,10 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtBluetooth 5.11
-import Bt 1.0
 import QtQuick.Layouts 1.12
 import QtCharts 2.3
 import QtQuick.Controls 2.12
+
+import Bt 1.0
+import FileManager 1.0
 
 Window {
     visible: true
@@ -28,6 +30,7 @@ Window {
 
     // Exposed components
     property var stackView: stack
+    property var fileMan: fileMan
 
     width: 320
 
@@ -140,6 +143,13 @@ Window {
         }
     }*/
 
+    FileManager {
+        id: fileMan
+
+        Component.onCompleted: {
+            fileMan.getSavedFiles();
+        }
+    }
 
     StackView {
         id: stack

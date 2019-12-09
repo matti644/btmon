@@ -60,6 +60,13 @@ Item {
                     //app.stackView.push({item: "SnapShotView.qml", properties: {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView}})
                 }
             }
+
+            Button {
+                text: "Save"
+                onClicked: {
+                    fileMan.save(mon1ChartData, mon2ChartData);
+                }
+            }
         }
 
         Rectangle {
