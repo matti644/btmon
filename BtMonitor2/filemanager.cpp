@@ -73,6 +73,30 @@ void FileManager::save(QList<QVariant> Monitor1, QList<QVariant> Monitor2) {
     file.close();
 }
 
+QList<QVariant> FileManager::load(QVariant index, int monitor){
+    QList<QVariant> saved = getSavedFiles();
+
+    QString path = QDir(dirPath).filePath(QVariant(saved[index.toInt()]).toString());
+    QFile file(path);
+
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString loaded = file.readAll();
+    file.close();
+
+
+    QStringList monitors = loaded.split( "\n", QString::SkipEmptyParts );
+
+    QStringList MonitorDataToReturn = monitors[monitor].split(",", QString::SkipEmptyParts);
+
+    QList<QVariant> returnData;
+
+    foreach(QString data, MonitorDataToReturn)
+    {
+        returnData.append(data);
+    }
+    return returnData;
+}
+
 QList<QVariant> FileManager::getSavedMonitor(int index) {
     QList<QVariant> ret;
 

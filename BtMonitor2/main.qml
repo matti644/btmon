@@ -32,6 +32,7 @@ Window {
     property var stackView: stack
     property var fileMan: fileMan
 
+
     width: 320
 
     Timer {

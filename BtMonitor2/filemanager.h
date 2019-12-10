@@ -22,6 +22,7 @@ signals:
 public slots:
     QList<QVariant> getSavedFiles();
     void save(QList<QVariant> Monitor1, QList<QVariant> Monitor2);
+    QList<QVariant> load(QVariant index, int monitor);
     QList<QVariant> getSavedMonitor(int index);
 
 private slots:

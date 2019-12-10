@@ -18,7 +18,7 @@ Item {
 
         ColumnLayout {
             id: textCont
-            Layout.preferredHeight: 0.15 * parent.height;
+            Layout.preferredHeight: 0.25 * parent.height;
             Layout.leftMargin: 10
 
             RowLayout {
@@ -52,26 +52,34 @@ Item {
                     text: mon2Label
                 }
             }
-
-            Button {
-                text: "Snapshot"
-                onClicked: {
-                    app.stackView.push("SnapShotView.qml", {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView});
-                    //app.stackView.push({item: "SnapShotView.qml", properties: {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView}})
+            RowLayout{
+                Button {
+                    text: "Snapshot"
+                    onClicked: {
+                        app.stackView.push("SnapShotView.qml", {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView});
+                        //app.stackView.push({item: "SnapShotView.qml", properties: {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView}})
+                    }
                 }
-            }
 
-            Button {
-                text: "Save"
-                onClicked: {
-                    fileMan.save(mon1ChartData, mon2ChartData);
+                Button {
+                    text: "Saved"
+                    onClicked: {
+                        app.stackView.push("FileView.qml", {file: app.fileMan.getSavedFiles(), stackView: app.stackView, manager: app.fileMan});
+                    }
+                }
+
+                Button {
+                    text: "Save"
+                    onClicked: {
+                        fileMan.save(mon1ChartData, mon2ChartData);
+                    }
                 }
             }
         }
 
         Rectangle {
             id: chartCont
-            Layout.preferredHeight: 0.85 * parent.height;
+            Layout.preferredHeight: 0.75 * parent.height;
             Layout.fillWidth: true
 
             ChartView {

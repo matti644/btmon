@@ -4,5 +4,6 @@
         <file>MainView.qml</file>
         <file>temp.qml</file>
         <file>SnapShotView.qml</file>
+        <file>FileView.qml</file>
     </qresource>
 </RCC>
