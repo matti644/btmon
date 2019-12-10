@@ -56,7 +56,7 @@ Item {
                 Button {
                     text: "Snapshot"
                     onClicked: {
-                        app.stackView.push("SnapShotView.qml", {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView});
+                        app.stackView.push("SnapShotView.qml", {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView, fileMan: app.fileMan});
                         //app.stackView.push({item: "SnapShotView.qml", properties: {mon1: app.mon1ChartData, mon2: app.mon2ChartData, stackView: app.stackView}})
                     }
                 }

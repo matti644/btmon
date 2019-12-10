@@ -174,20 +174,6 @@ Window {
                 mon1Label: "Monitor 1: "
                 mon2Label: "Monitor 2: "
             }
-
-            Item {
-
-            }
-        }
-
-        PageIndicator {
-            id: mainSwipeViewIndicator
-
-            count: mainSwipeView.count
-            currentIndex: mainSwipeView.currentIndex
-
-            anchors.bottom: mainSwipeView.bottom
-            anchors.horizontalCenter: mainSwipeView.horizontalCenter
         }
     }
 }

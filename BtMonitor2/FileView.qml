@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 import FileManager 1.0
 
 Item {
-    property var file
+    property var file: fileMan.getSavedFiles()
     property StackView stackView
     property FileManager manager
 
@@ -22,7 +22,7 @@ Item {
                     onClicked: stackView.pop()
                 }
                 Label {
-                    text: "Saved files"
+                    text: "Saved Files"
                     elide: Label.ElideRight
                     horizontalAlignment: Qt.AlignHCenter
                     verticalAlignment: Qt.AlignVCenter
@@ -37,6 +37,7 @@ Item {
             clip: true
 
             ListView {
+                id: foobar
                 model: file.length
 
                 delegate: RowLayout {
@@ -48,13 +49,13 @@ Item {
                         Layout.preferredWidth: parent.width
 
                         Text {
-                            id:textElement
+                            id: textElement
                             text: getFile(index)
 
                             MouseArea{
                                 anchors.fill: parent;
                                 //onClicked: console.log(manager.load(index, 0));
-                                onClicked: stackView.push("SnapShotView.qml", {mon1: manager.load(index, 0), mon2: manager.load(index, 1), stackView: stackView});
+                                onClicked: stackView.push("SnapShotView.qml", {mon1: manager.load(index, 0), mon2: manager.load(index, 1), stackView: stackView, fileMan: manager});
                             }
                         }
                     }
