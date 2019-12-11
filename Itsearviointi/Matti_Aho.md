@@ -1,4 +1,5 @@
 # Aho Matti
+
 ### TTOW0615 Mobile Application Development itsearviointi
 
 Projekti toteutettiin Eeron kanssa periaatteessa saman pöydän ääreltä.
@@ -14,3 +15,14 @@ Muita projektin osa-alueita mihin aikaa kului yhteensä sitten jotain 15-20 tunn
 
 Lopputulos projektissa oli toimiva prototyyppi, vaikkakin hieman nopeasti kasaan roiskaistulla koodilla ja hiomisen varaa jäi.
 Qtn aiheuttaman kärsimyksen jälkeen ehdottaisin arvosanaksi 2.
+
+
+### TTOW0635 Mobile Project itsearviointi
+
+Projekti sujui loppuun kohtuu kevyesti, tiedoston hallinnan asiat eivät myöskään aiheuttaneet ongelmia.
+Arduinon bluetooth puoli taipui toimintaan mutkattomasti poislukien harmaita hiuksia aiheuttanut androidin bluetoothin baudrate..
+
+Lopullinen tuotos vaikka visuaalisesti karu, toimii juurikin niin kuin alunperin suunnittelimme.
+Todennäköisesti sovelluksen kehitys jatkuu kurssin ulkopuolella.
+
+Arvosana ehdotus 3
