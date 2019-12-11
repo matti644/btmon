@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     // Force ask android for location permissions, doesn't seem to happen automatically
-    auto  result = QtAndroid::checkPermission(QString("android.permission.ACCESS_FINE_LOCATION"));
+    auto result = QtAndroid::checkPermission(QString("android.permission.ACCESS_FINE_LOCATION"));
     if(result == QtAndroid::PermissionResult::Denied){
         QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync(QStringList({"android.permission.ACCESS_FINE_LOCATION"}));
         if(resultHash["android.permission.ACCESS_FINE_LOCATION"] == QtAndroid::PermissionResult::Denied)
