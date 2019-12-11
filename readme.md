@@ -1,10 +1,12 @@
 # BTMon
 
-BTMonitor is a mobile application that talks with a raspberry pi running code specified in server.py. The application is developed for Android Application Development courses.
+BTMon aka BTMonitor is a mobile application that talks with a specified end device. The app connects to the device on startup and presents the information as seen in [these screenshots](https://github.com/matti644/btmon/tree/master/Dokumentaatio/Kuvakaappaukset). The app also provides functionality to take snapshots of the shown data, saving and viewing them.
+
+The app has been tested to work with a Raspberry Pi 3b and with an Arduino Mega 2560. The app has been developed alongside JAMK courses Mobile Application Development (as the Research Project) and Mobile Project.
 
 # How to run
 
-### Prequisites:
+### Prerequisite:
 
 * Qt 5.12.5
 * QtCharts 5.13.1
@@ -31,6 +33,9 @@ While developing, we've tested functionality both on a Raspberry Pi 3b and on an
 | Matti Aho      | [Linkki](./Itsearviointi/Matti_Aho.md)      |
 
 # Mobile Project
+
+Screenshots: [/Kuvakaappaukset](https://github.com/matti644/btmon/tree/master/Dokumentaatio/Kuvakaappaukset)  
+Documentation (in Finnish): [Documentation](https://github.com/matti644/btmon/blob/master/Dokumentaatio/Dokumentaatio.pdf)
 
 | Tekijä         | Itsearvointi |
 |----------------|--------------|
