@@ -4,10 +4,12 @@
 #include <QtBluetooth>
 #include <QBluetoothDeviceDiscoveryAgent>
 #include <QtAndroid>
-#include <Bt.h>
 #include <container.h>
 #include <QDataStream>
 #include <QTouchEvent>
+
+#include <Bt.h>
+#include <filemanager.h>
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +18,8 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     qmlRegisterType<Bt>("Bt", 1, 0, "Bt");
+    qmlRegisterType<FileManager>("FileManager", 1, 0, "FileManager");
+
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -27,7 +31,7 @@ int main(int argc, char *argv[])
     engine.load(url);
 
     // Force ask android for location permissions, doesn't seem to happen automatically
-    auto  result = QtAndroid::checkPermission(QString("android.permission.ACCESS_FINE_LOCATION"));
+    auto result = QtAndroid::checkPermission(QString("android.permission.ACCESS_FINE_LOCATION"));
     if(result == QtAndroid::PermissionResult::Denied){
         QtAndroid::PermissionResultMap resultHash = QtAndroid::requestPermissionsSync(QStringList({"android.permission.ACCESS_FINE_LOCATION"}));
         if(resultHash["android.permission.ACCESS_FINE_LOCATION"] == QtAndroid::PermissionResult::Denied)

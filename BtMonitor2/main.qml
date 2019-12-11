@@ -1,14 +1,19 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtBluetooth 5.11
-import Bt 1.0
 import QtQuick.Layouts 1.12
 import QtCharts 2.3
+import QtQuick.Controls 2.12
+
+import Bt 1.0
+import FileManager 1.0
 
 Window {
     visible: true
     title: qsTr("BTmonitor")
     height: 640
+    id: app
+
 
     // Bluetooth discovery control
     property var found: false
@@ -17,6 +22,16 @@ Window {
     property var runTimer: false
     property var mon1ChartData
     property var mon2ChartData
+
+    // Generator properties
+    property var gen1Data: []
+    property var gen2Data: []
+    property var curIndex: 0
+
+    // Exposed components
+    property var stackView: stack
+    property var fileMan: fileMan
+
 
     width: 320
 
@@ -31,40 +46,94 @@ Window {
     }
 
     function updateMons() {
-        updateMon(ls, mon1ChartData);
-        updateMon(ls2, mon2ChartData);
+        updateMon(mainView.mon1Chart, mon1ChartData);
+        updateMon(mainView.mon2Chart, mon2ChartData);
 
-        monitor.text = "Monitor 1 avg (0.1s): " + calculateAvgOverLastTenPoints(mon1ChartData)
-                + "\nMonitor 2 avg (0.1s): " + calculateAvgOverLastTenPoints(mon2ChartData)
+        mainView.mon1Label = "Monitor 1: " + calculateAvgOverLastTenPoints(mon1ChartData);
+        mainView.mon2Label = "Monitor 2: " + calculateAvgOverLastTenPoints(mon2ChartData);
     }
 
     function updateMon(sr, data) {
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             sr.replace(i, i, data[i]);
         }
     }
 
     function calculateAvgOverLastTenPoints(data) {
         var sum = 0;
-        for (var i = data.length - 1; i >= 90; i--) {
+        for (let i = data.length - 1; i >= 90; i--) {
             sum += data[i];
         }
         return sum / 10;
     }
 
+    /* --------------- Generator functions --------------- */
+    /*function preFill() {
+        for (let i = 0; i < 100; i++) {
+            gen1Data.push(i);
+            gen2Data.push((i / 10) ** 2);
+        }
+    }
+
+    function nextStep() {
+        for (let i = 0; i < 10; i++) {
+            let ind = curIndex % 100;
+
+            gen1Data.shift();
+            gen2Data.shift();
+
+            gen1Data.push(ind);
+            gen2Data.push((ind / 10) ** 2)
+
+            curIndex++
+        }
+
+        if (!runTimer) {
+            for (var mon1Data in gen1Data) {
+                mainView.mon1Chart.append(mainView.mon1Chart.count, mon1Data)
+            }
+
+            for (var mon2Data in gen2Data) {
+                mainView.mon2Chart.append(mainView.mon2Chart.count, mon2Data);
+            }
+
+            timer.running = true
+            runTimer = true
+        }
+
+        mon1ChartData = gen1Data;
+        mon2ChartData = gen2Data;
+    }*/
+
+    /*Timer {
+        id: generatorTimer
+        interval: 100 // 10/1s
+        running: true
+        repeat: true
+        onTriggered: {
+            nextStep()
+        }
+
+        Component.onCompleted: {
+            preFill()
+        }
+    }*/
+    /* --------------- Back to normal --------------- */
+
     Bt {
-        id: demo
+        id: btReader
 
         onSocketDataRead: {
             if (!runTimer) {
                 // For the first time running, append all the data points
                 // Afterwards update them
-                for (var prop in mon1) {
-                    ls.append(ls.count, prop)
+
+                for (var mon1Data in mon1) {
+                    mainView.mon1Chart.append(mainView.mon1Chart.count, mon1Data)
                 }
 
-                for (var prop in mon2) {
-                    ls2.append(ls2.count, prop);
+                for (var mon2Data in mon2) {
+                    mainView.mon2Chart.append(mainView.mon2Chart.count, mon2Data);
                 }
 
                 timer.running = true
@@ -76,77 +145,35 @@ Window {
         }
     }
 
-    GridLayout {
-        /*
-          Doesn't scale all too neatly, unless 50/50 width/height split,
-          look into better ways of handling scalability
-          */
+    FileManager {
+        id: fileMan
 
-        id: gr
-        anchors.fill: parent
-        anchors.margins: 20
-        rowSpacing: 20
-        columnSpacing: 20
-        flow: width > height ? GridLayout.LeftToRight : GridLayout.TopToBottom
-
-        Rectangle {
-            id: textRect
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            color: "#fff"
-
-            Text {
-                id: monitor
-
-                text: qsTr("A connection to the device has not been established yet.")
-                font.pixelSize: 12
-            }
+        Component.onCompleted: {
+            fileMan.getSavedFiles();
         }
+    }
 
-        Rectangle {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            color: "#fff"
+    StackView {
+        id: stack
+        anchors.fill: parent
+        initialItem: rootView
+    }
 
-            ChartView {
-                id: chart
-                anchors.fill: parent
-                antialiasing: true
+    Rectangle {
+        id: rootView
+        Layout.fillHeight: true
+        Layout.fillWidth: true
 
-                ValueAxis {
-                    id: axisX
-                    min: 0
-                    max: 100
-                }
+        SwipeView {
+            id: mainSwipeView
 
-                ValueAxis {
-                    id: axisY
-                    min: 0
-                    max: 100
-                }
+            currentIndex: 0
+            anchors.fill: parent
 
-                ValueAxis {
-                    id: axisY2
-                    min: 0
-                    max: 10.0
-                }
-
-                LineSeries {
-                    id: ls
-
-                    name: "Monitor 1"
-                    axisX: axisX
-                    axisY: axisY
-                    useOpenGL: true
-                }
-
-                LineSeries {
-                    id: ls2
-
-                    name: "Monitor 2"
-                    axisX: axisX
-                    axisY: axisY
-                }
+            MainView {
+                id: mainView
+                mon1Label: "Monitor 1: "
+                mon2Label: "Monitor 2: "
             }
         }
     }

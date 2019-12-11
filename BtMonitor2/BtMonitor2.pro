@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         Bt.cpp \
+        filemanager.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -49,4 +50,5 @@ contains(ANDROID_TARGET_ARCH,arm64-v8a) {
 
 HEADERS += \
     Bt.h \
-    container.h
+    container.h \
+    filemanager.h

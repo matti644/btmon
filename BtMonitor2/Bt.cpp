@@ -53,8 +53,8 @@ QObject(parent)
 // In your local slot, read information about the found devices
 void Bt::serviceDiscovered(const QBluetoothServiceInfo &service)
 {
-    //qDebug() << "Found new device:" << service.device().address().toString() << " " << service.serviceName();
-    if(service.device().address().toString() == "B8:27:EB:43:05:5D" && service.serviceName() == "Serial Port Profile")
+    qDebug() << "Found new device:" << service.device().address().toString() << " " << service.serviceName();
+    if(service.device().address().toString() == "98:D3:51:F5:B0:03" && service.serviceName() == "Serial Port Profile")
     {
         qDebug() << "Found the correct device, attempting to create a socket";
         socket = new QBluetoothSocket(QBluetoothServiceInfo::RfcommProtocol);
@@ -79,7 +79,6 @@ void Bt::readSocket()
     while (socket->canReadLine()) {
         QByteArray line = socket->readLine().trimmed();
         parse(line);
-
         emit socketDataRead(mon1Buffer, mon2Buffer);
     }
 }
