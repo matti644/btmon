@@ -32,7 +32,7 @@ While developing, we've tested functionality both on a Raspberry Pi 3b and on an
 
 # Mobile Project
 
-Screenshots: [/Kuvakaappaukset](https://github.com/matti644/btmon/tree/master/Dokumentaatio/Kuvakaappaukset)
+Screenshots: [/Kuvakaappaukset](https://github.com/matti644/btmon/tree/master/Dokumentaatio/Kuvakaappaukset)  
 Documentation (in Finnish): [Documentation](https://github.com/matti644/btmon/blob/master/Dokumentaatio/Dokumentaatio.pdf)
 
 | Tekijä         | Itsearvointi |
