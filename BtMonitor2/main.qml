@@ -68,7 +68,7 @@ Window {
     }
 
     /* --------------- Generator functions --------------- */
-    function preFill() {
+    /*function preFill() {
         for (let i = 0; i < 100; i++) {
             gen1Data.push(i);
             gen2Data.push((i / 10) ** 2);
@@ -103,9 +103,9 @@ Window {
 
         mon1ChartData = gen1Data;
         mon2ChartData = gen2Data;
-    }
+    }*/
 
-    Timer {
+    /*Timer {
         id: generatorTimer
         interval: 100 // 10/1s
         running: true
@@ -117,22 +117,23 @@ Window {
         Component.onCompleted: {
             preFill()
         }
-    }
+    }*/
     /* --------------- Back to normal --------------- */
 
-    /*Bt {
-        id: demo
+    Bt {
+        id: btReader
 
         onSocketDataRead: {
             if (!runTimer) {
                 // For the first time running, append all the data points
                 // Afterwards update them
+
                 for (var mon1Data in mon1) {
-                    ls.append(ls.count, mon1Data)
+                    mainView.mon1Chart.append(mainView.mon1Chart.count, mon1Data)
                 }
 
                 for (var mon2Data in mon2) {
-                    ls2.append(ls2.count, mon2Data);
+                    mainView.mon2Chart.append(mainView.mon2Chart.count, mon2Data);
                 }
 
                 timer.running = true
@@ -142,7 +143,7 @@ Window {
             mon1ChartData = mon1;
             mon2ChartData = mon2;
         }
-    }*/
+    }
 
     FileManager {
         id: fileMan
