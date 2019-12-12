@@ -16,7 +16,7 @@ Harmikseen projektissa kirjoittamani koodin laatu ei vastaa normaalia tasoani. V
 
 Projektista kuitenkin saatiin toimiva puhelinohjelma, mikä toimii pääasiassa ongelmitta. Tuotoksen taso ei kuitenkaan vastaa itselleni asettamia odotuksia, eikä odotuksia, joita kolmannen vuoden opiskelijalta jo odotetaan. Täten arvosanaehdotukseni Research Projektin osalta on 1.
 
-### TTOW0600 Mobile Project itsearviointi
+### TTOW0635 Mobile Project itsearviointi
 
 Research Projektin jälkeen työntekomme itsenäistyi. Työnjaoksi syntyi, että toteutan käyttöliittymän osuuden ja Matti hoitaa konepellin alla olevan logiikan. Käyttöliittymän suunnittelu ei ollut kauhean vaativa homma, vaikka se ei pitänytkään loppuun asti. Tiedostojen listaus-komponentti jouduttiin uusimaan sunnitellusta teknisten ongelmien takia. Itse kehityksessä ilmeny erinäköisiä ongelmia, joiden ratkaisuun meni oma aikansa. Lopputulokseen olen kuitenkin tyytyväinen, sovellus tekee ne asiat mitkä meillä oli tavoitteena Research Projektin alussa jo toteuttaa. Ainoaksi harmikseni jäi oikeastaan se, etten kerennyt katsoa käyttöliittymän tyylitystä teknisten ongelmien ratkonnan takia.
 
@@ -29,3 +29,9 @@ Käytin Mobile Projektin yhteydessä noin 25-30 tuntia. Nämä tunnit ovat menne
 * Tiedostonhallinta-komponentin alku
 
 Arvosanaksi ehdottaisin kurssista arvosanaa 3. Teknisesti sovellus on toteutettu hyvin, mutta sen visuaalinen puoli jäi hyvin vajaanaiseksi.
+
+Mobile Project seminaarin jälkeinen lisä:
+
+Seminaarin jälkeisessä käytäväkeskustelussa tuli ilmi, että toinen oppilas oli saanut päivitettyä QML listakomponentin sisältöä uudestaan. Hänen ratkaisunsa oli kuitenkin toteutettu QML:n puolella ilman erillistä C++ komponenttia, mikä saikin miettimään, että tämä on voinut johtua C++ FileManager -komponentin ja listan sisällön välisestä ongelmasta sen sijaan, että itse QML komponentissa olisi ollut ongelmaa. En kuitenkaan löytänyt ratkaisua tuolloin komponentin päivitykseen, jonka takia päädyimme toiseen ratkaisuun.
+
+Jatkona projektille olisi vaihtaa Qt:sta Xamariniin ja toteuttaa ohjelma tutummalla kirjastolla ja ohjelmointikielellä.
